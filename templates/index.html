@@ -13,7 +13,7 @@
 	<h3>Topics</h3>
 	<ul>
 	{% for topic in topics %}
-		<li><a href="vote/{{topic.name}}">{{topic.name}}</a> <span id="{{ topic['_id'] }}">{{ topic.votes|int }}</span></li>
+		<li><a href="vote/{{topic.name}}">{{topic.name}}</a>{{ topic.votes|int }}</li>
 	{% endfor %}
 	</ul>
 	<form action="add_topic/" method="post">
