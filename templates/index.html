@@ -9,11 +9,12 @@ window.onload = function() {
 		socket.onmessage = function(msg) {
 			data = JSON.parse(msg.data);
 			for(var topic in data) {
-				element = document.getElementById(data[topic]['_id']['$oid'])
+				element = document.getElementById(data[topic]['_id']['$oid']);
 				element.innerHTML = parseInt(data[topic]['votes']);
-				element.onClick(function() {
-					
-				});
+				console.log(element);
+				element.onclick = function() {
+					console.log(document.images['voter'].src = escape("vote/" + data[topic]['name']));
+				};
 			}
 		}
 	} catch(exception) {
@@ -23,6 +24,7 @@ window.onload = function() {
 	</script>
 </head>
 <body>
+	<img name='voter' src="#" width=0 height=0>
 	{% with messages = get_flashed_messages() %}
 		{% for message in messages %}
 			{{message}}
@@ -31,7 +33,7 @@ window.onload = function() {
 	<h3>Topics</h3>
 	<ul>
 	{% for topic in topics %}
-		<li><a href="vote/{{topic.name}}">{{topic.name}}</a> <span id="{{ topic['_id'] }}">{{ topic.votes|int }}</span></li>
+		<li><a href="">{{topic.name}}</a> <span id="{{ topic['_id'] }}">{{ topic.votes|int }}</span></li>
 	{% endfor %}
 	</ul>
 	<form action="add_topic/" method="post">

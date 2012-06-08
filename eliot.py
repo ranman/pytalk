@@ -34,7 +34,7 @@ def vote(topic):
     try:
         mongo.db.topics.update({'name': topic}, {"$inc": {"votes": 1}})
     finally:
-        return flask.redirect('/')
+        return "worked"
 
 
 @app.route('/add_topic/', methods=['POST'])
@@ -43,7 +43,7 @@ def add_topic():
         if flask.request.form.get('topic'):
             mongo.db.topics.insert({'name': flask.request.form.get('topic'), 'votes': 0}, {"unique": "true"})
     finally:
-        return flask.redirect('/')
+        return "worked"
 
 if __name__ == '__main__':
     server = WSGIServer(('', 5000), app, handler_class=WebSocketHandler)
