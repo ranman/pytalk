@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+	<title>Random Page for Eliot</title>
+	<script>
+window.onload = function() {
+	try {
+		var socket = new WebSocket('ws://'+ window.location.host + '/poll');
+		socket.onmessage = function(msg) {
+			data = JSON.parse(msg.data);
+			for(var topic in data) {
+				element = document.getElementById(data[topic]['_id']['$oid'])
+				element.innerHTML = parseInt(data[topic]['votes']);
+				element.onClick(function() {
+					
+				});
+			}
+		}
+	} catch(exception) {
+		console.log(exception);
+	}
+};
+	</script>
+</head>
+<body>
+	{% with messages = get_flashed_messages() %}
+		{% for message in messages %}
+			{{message}}
+		{% endfor %}
+	{% endwith %}
+	<h3>Topics</h3>
+	<ul>
+	{% for topic in topics %}
+		<li><a href="vote/{{topic.name}}">{{topic.name}}</a> <span id="{{ topic['_id'] }}">{{ topic.votes|int }}</span></li>
+	{% endfor %}
+	</ul>
+	<form action="add_topic/" method="post">
+		<input type="text" name="topic" />
+	</form>
+</body>
+</html>
