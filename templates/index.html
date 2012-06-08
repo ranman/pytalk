@@ -2,25 +2,7 @@
 <html>
 <head>
 	<title>Random Page for Eliot</title>
-	<script>
-window.onload = function() {
-	try {
-		var socket = new WebSocket('ws://'+ window.location.host + '/poll');
-		socket.onmessage = function(msg) {
-			data = JSON.parse(msg.data);
-			for(var topic in data) {
-				element = document.getElementById(data[topic]['_id']['$oid'])
-				element.innerHTML = parseInt(data[topic]['votes']);
-				element.onClick(function() {
-					
-				});
-			}
-		}
-	} catch(exception) {
-		console.log(exception);
-	}
-};
-	</script>
+	<meta http-equiv="refresh" content="1">
 </head>
 <body>
 	{% with messages = get_flashed_messages() %}

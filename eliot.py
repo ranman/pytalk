@@ -1,26 +1,9 @@
 import flask
 from flask.ext.pymongo import PyMongo
-from geventwebsocket.handler import WebSocketHandler
-from gevent.pywsgi import WSGIServer
-from bson import json_util
-import json
-import gevent
 
 app = flask.Flask(__name__)
 app.config['MONGO_DBNAME'] = 'test'
 mongo = PyMongo(app, config_prefix='MONGO')
-
-
-@app.route('/poll')
-def poll():
-    ws = flask.request.environ.get('wsgi.websocket')
-    topics = [topic for topic in mongo.db.topics.find()]
-    while True:
-        try:
-            ws.send(json.dumps(topics, default=json_util.default))
-        except Exception, e:
-            print e
-        gevent.sleep(1)
 
 
 @app.route('/')
@@ -45,6 +28,4 @@ def add_topic():
     finally:
         return flask.redirect('/')
 
-if __name__ == '__main__':
-    server = WSGIServer(('', 5000), app, handler_class=WebSocketHandler)
-    server.serve_forever()
+app.run()
